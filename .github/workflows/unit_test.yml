@@ -14,7 +14,9 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn test:e2e
-      - uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+      - uses: dorny/test-reporter@v1
+        if: always()   # run this step even if previous step failed
         with:
-          files: reports/*.xml
+          name: JEST Tests            # Name of the check run which will be created
+          path: reports/jest-*.xml    # Path to test results
+          reporter: jest-junit        # Format of test results
